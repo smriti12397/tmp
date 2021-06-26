@@ -1,0 +1,41 @@
+
+//Include LiquidCrystal library and set pins
+#include <LiquidCrystal.h>
+LiquidCrystal LCD(12,11,5,4,3,2);
+const int SensorT = A0;
+const int SensorH = A1;
+
+void setup()
+{
+  //Shows the serial monitor and a 1 sec delay
+  //Start the LCD sets the cursor to line 0 and prints it to line 1
+    LCD.begin(16, 2);
+    LCD.setCursor(0,0);
+    LCD.print("Temp.:  ");
+    LCD.print("humidity.:");
+    LCD.setCursor(5,1);
+    LCD.print("C");
+    LCD.setCursor(13,1);
+    LCD.print("%");
+  delay(1000);
+}
+
+void loop()
+{
+
+   const int SensorTTensao = analogRead(SensorT);
+  
+   float Tensao = SensorTTensao*5;
+   Tensao/=1024;
+  //TEMPERATURE
+   float TemperaturaC = (Tensao-0.5)*100;
+    LCD.setCursor(0,1);
+    LCD.print(TemperaturaC);
+  //HUMIDITY
+   const int SensorHTensao = analogRead(SensorH);
+    float humidade = map(SensorHTensao, 0, 1023, 0, 100);
+      LCD.setCursor(8,1);
+      LCD.print(humidade);
+
+delay(2000);
+}
